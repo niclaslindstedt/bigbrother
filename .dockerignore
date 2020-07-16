@@ -1,0 +1,8 @@
+**/bin/
+**/obj/
+.vscode/
+scripts/*.ps1
+.git*
+.dockerignore
+Dockerfile*
+docker-compose*.yml
