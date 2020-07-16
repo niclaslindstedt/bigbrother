@@ -4,5 +4,6 @@
 scripts/*.ps1
 .git*
 .dockerignore
+.editorconfig
 Dockerfile*
 docker-compose*.yml
