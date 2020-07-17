@@ -1,17 +1,30 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine as build
-WORKDIR /app
-COPY . .
-RUN cd src/console \
-    && dotnet publish -o /app/out
+RUN apk update \
+	&& apk upgrade \
+	&& apk add \
+		nano
+WORKDIR /app/src
+COPY ./src/*.sln ./
+COPY ./src/console/*.csproj ./console/
+COPY ./src/core/*.csproj ./core/
+COPY ./src/tests/*.csproj ./tests/
+RUN dotnet clean \
+	&& dotnet restore
+COPY ./src .
+RUN dotnet build --no-restore
 
 FROM build as develop
-CMD ["dotnet", "run"]
+WORKDIR /app/src/tests
+CMD ["dotnet", "watch", "test"]
 
 FROM build as test
-RUN cd src/tests \
-    && dotnet test
+RUN dotnet test -c Release --no-restore
+
+FROM test as publish
+WORKDIR /app/src
+RUN dotnet publish -c Release -o /app/out --no-restore
 
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1-alpine as prod
 WORKDIR /app
-COPY --from=build /app/out .
+COPY --from=publish /app/out .
 CMD ["dotnet", "bigbrother.dll"]

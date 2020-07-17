@@ -14,7 +14,7 @@ namespace BigBrother.Tests
 
             Assert.NotEmpty(processes);
         }
-        
+
         [Fact]
         public void GetCurrentProcess_ReturnsNonEmptyString()
         {
