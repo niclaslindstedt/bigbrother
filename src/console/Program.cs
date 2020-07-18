@@ -11,7 +11,11 @@ namespace BigBrother.CommandLine
         {
 			var processViewer = new ProcessViewer();
 
-			Console.WriteLine(processViewer.GetCurrentProcess());
+			var processes = processViewer.GetProcesses();
+
+			foreach (var process in processes) {
+				Console.WriteLine(process);
+			}
 		}
     }
 }
