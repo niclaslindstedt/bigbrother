@@ -9,13 +9,9 @@ namespace BigBrother.CommandLine
     {
         static void Main(string[] args)
         {
-			var processViewer = new ProcessViewer();
+			var eventLoop = new EventLoop();
 
-			var processes = processViewer.GetProcesses();
-
-			foreach (var process in processes) {
-				Console.WriteLine(process);
-			}
+			eventLoop.Start();
 		}
     }
 }
